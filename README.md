@@ -12,7 +12,7 @@
   -- db \
   --- connect.php _(работа с БД)_ \
   -- rest \
-  --- api.php _(работа rest)_
+  --- api.php _(работа rest)_ \
   --- contactsApi.php _(реализация rest для работы с контактами)_ \
   -- views \
   --- layout _(шаблон приложения)_ \
