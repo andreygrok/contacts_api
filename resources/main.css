@@ -1,0 +1,13 @@
+.main-sect {
+    margin-top: 40px;
+}
+.add-row-btn {
+    float: right;
+}
+.for_clone {
+  display: none;
+}
+.form_create {
+  margin-bottom: 20px;
+  border-bottom: 3px solid #dedede;
+}
