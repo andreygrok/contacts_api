@@ -10,17 +10,17 @@
  
  - app \
   -- db \
-  --- connect.php (работа с БД) \
+  --- connect.php _(работа с БД)_ \
   -- rest \
-  --- api.php (работа rest)
-  --- contactsApi.php (реализация rest для работы с контактами) \
+  --- api.php _(работа rest)_
+  --- contactsApi.php _(реализация rest для работы с контактами)_ \
   -- views \
-  --- layout (шаблон приложения) \
-  --- create.php (пример view страницы) \
-  -- app.php (autoload) \
- - resources (js, css)
- - index.php (точка входа для rest request)
- - add.php (пример web interface страницы)
+  --- layout _(шаблон приложения)_ \
+  --- create.php _(пример view страницы)_ \
+  -- app.php _(autoload)_ \
+ - resources _(js, css)_
+ - index.php _(точка входа для rest request)_
+ - add.php _(пример web interface страницы)_
 ## Demo
 - Список контактов http://contacts.birdweb.ru/contacts/
 - Поиск контакта http://contacts.birdweb.ru/contacts/?phone=7773213326
