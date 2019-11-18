@@ -17,7 +17,7 @@
   -- views \
   --- layout _(шаблон приложения)_ \
   --- create.php _(пример view страницы)_ \
-  -- app.php _(autoload)_ \
+  -- app.php _(autoload)_ 
  - resources _(js, css)_
  - index.php _(точка входа для rest request)_
  - add.php _(пример web interface страницы)_
