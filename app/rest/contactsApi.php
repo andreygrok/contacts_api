@@ -54,7 +54,9 @@ class contactsApi extends api
         global $db;
         $contacts = [];
         $phone = addslashes($this->requestParams['phone']);
-
+        if (empty($phone)) {
+            return $this->response('Data not found', 404);
+        }
         $res = $db->query(
             'select * from '
             . $this->tableName
