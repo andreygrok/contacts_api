@@ -7,9 +7,9 @@ class DbConnect
     private static $_instance = null;
 
     const DB_HOST = 'localhost';
-    const DB_NAME = 'andreysol_test';
-    const DB_USER = 'andreysol_test';
-    const DB_PASS = 'andreysol_test';
+    const DB_NAME = 'db name';
+    const DB_USER = 'db user';
+    const DB_PASS = 'user pass';
 
 	private function __construct () {
 
