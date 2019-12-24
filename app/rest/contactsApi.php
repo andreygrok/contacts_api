@@ -2,11 +2,16 @@
 
 namespace app\rest;
 
+use app\db\DbConnect;
+
 class contactsApi extends api
 {
-    public $apiName = 'contacts';
+    const TABLE_NAME = 'contacts';
 
-    private $tableName = 'contacts';
+    /**
+     * @var DbConnect
+     */
+    private $db;
 
     private $fields = [
         'source_id',
@@ -17,15 +22,26 @@ class contactsApi extends api
     ];
 
     /**
+     * contactsApi constructor.
+     * @throws \Exception
+     */
+    public function __construct()
+    {
+        $this->db = DbConnect::getInstance();
+
+        parent::__construct();
+    }
+
+
+    /**
      * GET all contacts
      * @return false|string
      * @throws \Exception
      */
     public function indexAction()
     {
-        global $db;
         $contacts = [];
-        $res = $db->query('select * from ' . $this->tableName . ' order by created_at desc');
+        $res = $this->db->query('select * from ' . self::TABLE_NAME . ' order by created_at desc');
         foreach ($res as $row) {
             $date = new \DateTimeImmutable();
             $contacts[] = [
@@ -51,17 +67,13 @@ class contactsApi extends api
      */
     public function searchAction()
     {
-        global $db;
         $contacts = [];
         $phone = addslashes($this->requestParams['phone']);
         if (empty($phone)) {
             return $this->response('Data not found', 404);
         }
-        $res = $db->query(
-            'select * from '
-            . $this->tableName
-            . ' where phone=' . $phone
-            . ' order by id desc');
+        $tableName = self::TABLE_NAME;
+        $res = $this->db->query(sprintf("select * from %s where phone=%s order by id desc", $tableName, $phone));
         foreach ($res as $row) {
             $date = new \DateTimeImmutable();
             $contacts[] = [
@@ -126,11 +138,9 @@ class contactsApi extends api
      */
     private function createContact(array $contact, int $sourceId)
     {
-        global $db;
-
         $values = $this->prepareValue($contact, $sourceId);
 
-        $sql = 'insert into ' . $this->tableName;
+        $sql = 'insert into ' . self::TABLE_NAME;
         $sql .= ' (' . implode(',', $this->fields) . ')';
         $sql .= ' VALUES (';
         foreach ($this->fields as $field) {
@@ -138,7 +148,7 @@ class contactsApi extends api
         }
         $sql = substr($sql, 0, -2);
         $sql .= ')';
-        $db->query($sql);
+        $this->db->query($sql);
     }
 
     /**
@@ -178,7 +188,6 @@ class contactsApi extends api
      */
     private function checkPhoneTime($phone, $sourceId)
     {
-        global $db;
         $dateFrom = strtotime(date('Y-m-d H:i:s', strtotime('-1 day')));
         if (strlen(intval($phone)) > 10) {
             $phone = substr(intval($phone), 1);
@@ -186,12 +195,11 @@ class contactsApi extends api
             $phone = intval($phone);
         }
 
-        $sql = 'select count(id) from '
-            . $this->tableName
-            . ' where phone = ' . $phone
-            . ' and source_id = ' . $sourceId
-            . ' and created_at BETWEEN ' . $dateFrom . ' AND ' . time();
-        $res = $db->query($sql);
+        $sql = sprintf(
+            "select count(id) from %s where phone = %s and source_id = %s and created_at BETWEEN %s AND %s",
+            self::TABLE_NAME, $phone, $sourceId, $dateFrom, time()
+        );
+        $res = $this->db->query($sql);
         if ($res) {
             foreach ($res as $row) {
                 return $row['count(id)'];
