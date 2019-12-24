@@ -1,7 +1,10 @@
 <?php
 include './app/app.php';
+
+use app\rest\contactsApi;
+
 try {
-    $api = new \app\rest\contactsApi();
+    $api = new contactsApi();
     $contacts = $api->run();
     echo $contacts;
 } catch (Exception $e) {
