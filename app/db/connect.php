@@ -11,8 +11,8 @@ class DbConnect
     const DB_USER = 'db user';
     const DB_PASS = 'user pass';
 
-	private function __construct () {
-
+    private function __construct()
+    {
         $this->_instance = new \PDO(
             'mysql:host=' . self::DB_HOST . ';dbname=' . self::DB_NAME,
             self::DB_USER,
@@ -22,7 +22,7 @@ class DbConnect
 
     }
 
-	public static function getInstance()
+    public static function getInstance()
     {
         if (self::$_instance != null) {
             return self::$_instance;
@@ -34,7 +34,7 @@ class DbConnect
     public function query($sql)
     {
         $result = $this->_instance->query($sql);
-        
+
         return $result;
     }
 }

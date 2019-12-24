@@ -13,12 +13,13 @@ abstract class api
 
     protected $action = '';
 
-    public function __construct() {
+    public function __construct()
+    {
         header("Access-Control-Allow-Orgin: *");
         header("Access-Control-Allow-Methods: *");
         header("Content-Type: application/json");
 
-        $this->requestUri = explode('/', trim($_SERVER['REQUEST_URI'],'/'));
+        $this->requestUri = explode('/', trim($_SERVER['REQUEST_URI'], '/'));
         $this->requestParams = $_REQUEST;
 
         $this->method = $_SERVER['REQUEST_METHOD'];
@@ -33,8 +34,9 @@ abstract class api
         }
     }
 
-    public function run() {
-        if(array_shift($this->requestUri) !== $this->apiName){
+    public function run()
+    {
+        if (array_shift($this->requestUri) !== $this->apiName) {
             throw new \RuntimeException('API Not Found', 404);
         }
         $this->action = $this->getAction();
@@ -46,19 +48,21 @@ abstract class api
         }
     }
 
-    protected function response($data, $status = 500) {
+    protected function response($data, $status = 500)
+    {
         header("HTTP/1.1 " . $status . " " . $this->requestStatus($status));
         return json_encode($data);
     }
 
-    private function requestStatus($code) {
+    private function requestStatus($code)
+    {
         $status = array(
             200 => 'OK',
             404 => 'Not Found',
             405 => 'Method Not Allowed',
             500 => 'Internal Server Error',
         );
-        return ($status[$code])?$status[$code]:$status[500];
+        return ($status[$code]) ? $status[$code] : $status[500];
     }
 
     protected function getAction()
@@ -66,7 +70,7 @@ abstract class api
         $method = $this->method;
         switch ($method) {
             case 'GET':
-                if($this->requestUri){
+                if ($this->requestUri) {
                     return 'searchAction';
                 } else {
                     return 'indexAction';
@@ -81,6 +85,8 @@ abstract class api
     }
 
     abstract protected function indexAction();
+
     abstract protected function searchAction();
+
     abstract protected function createAction();
 }
