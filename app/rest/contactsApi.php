@@ -104,7 +104,7 @@ class contactsApi extends api
         $errors = [];
         $added = 0;
         $iter = 0;
-        foreach ($this->generatorContacts($contacts) as $contact) {
+        foreach ($contacts as $contact) {
             $iter++;
             $contactErrors = $this->validateValues($contact, $sourceId);
             if (count($contactErrors)) {
@@ -117,18 +117,6 @@ class contactsApi extends api
 
         return $this->response(['added' => $added, 'errors' => $errors], 200);
 
-    }
-
-    /**
-     * Generator for big arrays
-     * @param array $contacts
-     * @return \Generator
-     */
-    public function generatorContacts(array $contacts)
-    {
-        foreach ($contacts as $key => $contact) {
-            yield $contact;
-        }
     }
 
     /**
